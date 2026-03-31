@@ -1,6 +1,6 @@
 
 import { GoogleGenAI, Type } from "@google/genai";
-import { UploadedImage, GenerationOptions, CameraMovement, GroupGenerationOptions, SceneVariation, PlacementType, ProductMaterial, ProductCategory, SceneContext, ProductAnalysis } from "../types";
+import { UploadedImage, GenerationOptions, CameraMovement, GroupGenerationOptions, SceneVariation, PlacementType, ProductMaterial, ProductCategory, SceneContext, ProductAnalysis, EnvironmentType } from "../types";
 import { buildVariations, PromptBuilder } from "../utils/variationEngine";
 import { resizeAndPadImage } from "../utils/helpers";
 
@@ -85,11 +85,74 @@ export const generateProductShoot = async (
   signal?: AbortSignal
 ) => {
   const ai = getClient();
-  const variations = buildVariations(
-    options.sceneContexts,
-    options.numberOfImages,
-    options.overrides.locationStyle
-  );
+  
+  let variations: SceneVariation[] = [];
+
+  // If in AUTO mode and we have analysis, let's try to get even better variations from Gemini
+  if (options.generationMode === 'AUTO' && options.analysis && options.analysis.usageScenarios) {
+      try {
+          const variationResponse = await ai.models.generateContent({
+              model: 'gemini-3-flash-preview',
+              contents: `Generate ${options.numberOfImages} diverse and realistic professional product photography scene variations for this product: ${options.analysis.productName}.
+              Category: ${options.productCategory}.
+              Usage Scenarios: ${options.analysis.usageScenarios.join(', ')}.
+              Desired Contexts: ${options.sceneContexts.join(', ')}.
+              
+              For each variation, provide:
+              1. location: A specific, realistic setting (e.g., 'modern minimalist living room wall' for an AC).
+              2. environmentVibe: One of [Indoor, Outdoor, Urban, Natural].
+              3. timeOfDay: One of [morning, afternoon, golden hour, soft window light].
+              4. lighting: A professional lighting style.
+              5. mood: A mood for the shot.
+              6. composition: A photography composition rule.
+              
+              Return as a JSON array of objects.`,
+              config: {
+                  responseMimeType: 'application/json',
+                  responseSchema: {
+                      type: Type.ARRAY,
+                      items: {
+                          type: Type.OBJECT,
+                          properties: {
+                              location: { type: Type.STRING },
+                              environmentVibe: { type: Type.STRING, enum: Object.values(EnvironmentType) },
+                              timeOfDay: { type: Type.STRING },
+                              lighting: { type: Type.STRING },
+                              mood: { type: Type.STRING },
+                              composition: { type: Type.STRING }
+                          },
+                          required: ['location', 'environmentVibe', 'timeOfDay', 'lighting', 'mood', 'composition']
+                      }
+                  }
+              }
+          });
+
+          const generatedVariations = JSON.parse(variationResponse.text);
+          variations = generatedVariations.map((gv: any) => ({
+              ...gv,
+              sceneContext: options.sceneContexts[0], // Fallback context
+              environment: gv.mood,
+              backgroundAction: 'Still life product shot.',
+              camera: 'Front Hero View', // Default
+              negative: ''
+          }));
+      } catch (e) {
+          console.warn("Failed to generate variations with Gemini, falling back to engine", e);
+          variations = buildVariations(
+            options.sceneContexts,
+            options.numberOfImages,
+            options.overrides.locationStyle,
+            options.productCategory
+          );
+      }
+  } else {
+      variations = buildVariations(
+        options.sceneContexts,
+        options.numberOfImages,
+        options.overrides.locationStyle,
+        options.productCategory
+      );
+  }
 
   for (let i = 0; i < options.numberOfImages; i++) {
     if (signal?.aborted) throw new Error("Generation Cancelled");

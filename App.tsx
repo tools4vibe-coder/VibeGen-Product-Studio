@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Camera, Sparkles, Loader2, Layout, History, Zap, XCircle, Users, BarChart3, Activity, Clock, ChevronDown, ChevronUp, Image as ImageIcon, Film, Key, Lock, CheckCircle, Trash2, Box, Sun } from 'lucide-react';
-import { UploadedImage, GenerationOptions, GeneratedImage, GeneratedVideo, ShootType, ShootMode, ProductCategory, GroupGenerationOptions, StudioStyle, EnvironmentType, VideoProject, GenerationMode, ProductMaterial, PlacementType, SceneVariation } from './types';
+import { UploadedImage, GenerationOptions, GeneratedImage, GeneratedVideo, ShootType, ShootMode, ProductCategory, GroupGenerationOptions, StudioStyle, EnvironmentType, VideoProject, GenerationMode, ProductMaterial, PlacementType, SceneVariation, SceneContext } from './types';
 import { FileUploader } from './components/FileUploader';
 import { OptionsPanel } from './components/OptionsPanel';
 import { ImageGallery } from './components/ImageGallery';
@@ -102,7 +102,7 @@ function App() {
       shootType: ShootType.LIFESTYLE,
       shootMode: ShootMode.SINGLE,
       studioStyle: StudioStyle.COMMERCIAL,
-      sceneContexts: [EnvironmentType.INDOOR], 
+      sceneContexts: [SceneContext.LIVING_ROOM], 
       environmentTypes: [EnvironmentType.INDOOR],
       environmentRandom: true,
       

@@ -5,38 +5,40 @@ interface LocationEntry {
   text: string;
   vibes: EnvironmentType[];
   styles: LocationStyle[];
+  categories?: ProductCategory[]; // Optional: restrict to certain categories
 }
 
 // Mapped by SceneContext
 const LOCATIONS: Record<SceneContext, LocationEntry[]> = {
   [SceneContext.KITCHEN]: [
-    { text: 'modern marble kitchen countertop with morning light', vibes: [EnvironmentType.INDOOR], styles: ['Luxury', 'Modern'] },
-    { text: 'rustic wooden kitchen island with herbs', vibes: [EnvironmentType.INDOOR], styles: ['Rustic'] },
-    { text: 'sleek minimalist kitchen with matte black cabinetry', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'] },
-    { text: 'sun-drenched breakfast nook with white linen', vibes: [EnvironmentType.INDOOR], styles: ['Modern'] }
+    { text: 'modern marble kitchen countertop with morning light', vibes: [EnvironmentType.INDOOR], styles: ['Luxury', 'Modern'], categories: [ProductCategory.KITCHEN_APPLIANCE, ProductCategory.PACKAGING] },
+    { text: 'rustic wooden kitchen island with herbs', vibes: [EnvironmentType.INDOOR], styles: ['Rustic'], categories: [ProductCategory.KITCHEN_APPLIANCE, ProductCategory.PACKAGING] },
+    { text: 'sleek minimalist kitchen with matte black cabinetry', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'], categories: [ProductCategory.KITCHEN_APPLIANCE, ProductCategory.HOME_ELECTRONICS] },
+    { text: 'sun-drenched breakfast nook with white linen', vibes: [EnvironmentType.INDOOR], styles: ['Modern'], categories: [ProductCategory.KITCHEN_APPLIANCE, ProductCategory.PACKAGING] }
   ],
   [SceneContext.LIVING_ROOM]: [
-    { text: 'cozy oak coffee table with soft textures', vibes: [EnvironmentType.INDOOR], styles: ['Rustic', 'Modern'] },
-    { text: 'luxury penthouse shelf with city view blur', vibes: [EnvironmentType.INDOOR, EnvironmentType.URBAN], styles: ['Luxury'] },
-    { text: 'minimalist media console with abstract art', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'] },
-    { text: 'mid-century modern side table with warm lamp', vibes: [EnvironmentType.INDOOR], styles: ['Modern'] }
+    { text: 'cozy oak coffee table with soft textures', vibes: [EnvironmentType.INDOOR], styles: ['Rustic', 'Modern'], categories: [ProductCategory.HOME_ELECTRONICS, ProductCategory.FURNITURE, ProductCategory.GADGETS] },
+    { text: 'luxury penthouse shelf with city view blur', vibes: [EnvironmentType.INDOOR, EnvironmentType.URBAN], styles: ['Luxury'], categories: [ProductCategory.HOME_ELECTRONICS, ProductCategory.FURNITURE, ProductCategory.GADGETS] },
+    { text: 'minimalist media console with abstract art', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'], categories: [ProductCategory.HOME_ELECTRONICS, ProductCategory.FURNITURE] },
+    { text: 'mid-century modern side table with warm lamp', vibes: [EnvironmentType.INDOOR], styles: ['Modern'], categories: [ProductCategory.HOME_ELECTRONICS, ProductCategory.FURNITURE, ProductCategory.GADGETS] },
+    { text: 'clean white wall above a modern sofa', vibes: [EnvironmentType.INDOOR], styles: ['Modern', 'Minimal'], categories: [ProductCategory.HOME_ELECTRONICS, ProductCategory.FURNITURE] }
   ],
   [SceneContext.OFFICE]: [
-    { text: 'professional mahogany desk with leather pad', vibes: [EnvironmentType.INDOOR], styles: ['Luxury', 'Modern'] },
-    { text: 'clean white creative workspace with plants', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'] },
-    { text: 'high-tech setup with neon ambient lighting', vibes: [EnvironmentType.INDOOR], styles: ['Futuristic'] },
-    { text: 'architectural drafting table with natural light', vibes: [EnvironmentType.INDOOR], styles: ['Industrial'] }
+    { text: 'professional mahogany desk with leather pad', vibes: [EnvironmentType.INDOOR], styles: ['Luxury', 'Modern'], categories: [ProductCategory.GADGETS, ProductCategory.HOME_ELECTRONICS, ProductCategory.ACCESSORIES] },
+    { text: 'clean white creative workspace with plants', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'], categories: [ProductCategory.GADGETS, ProductCategory.HOME_ELECTRONICS] },
+    { text: 'high-tech setup with neon ambient lighting', vibes: [EnvironmentType.INDOOR], styles: ['Futuristic'], categories: [ProductCategory.GADGETS, ProductCategory.HOME_ELECTRONICS] },
+    { text: 'architectural drafting table with natural light', vibes: [EnvironmentType.INDOOR], styles: ['Industrial'], categories: [ProductCategory.GADGETS, ProductCategory.HOME_ELECTRONICS] }
   ],
   [SceneContext.BATHROOM]: [
-    { text: 'white marble vanity with spa accessories', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'] },
-    { text: 'terrazzo stone shelf with tropical leaf shadow', vibes: [EnvironmentType.INDOOR], styles: ['Modern'] },
-    { text: 'minimalist concrete bathroom ledge', vibes: [EnvironmentType.INDOOR], styles: ['Minimal', 'Industrial'] }
+    { text: 'white marble vanity with spa accessories', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'], categories: [ProductCategory.BEAUTY_COSMETICS, ProductCategory.PACKAGING] },
+    { text: 'terrazzo stone shelf with tropical leaf shadow', vibes: [EnvironmentType.INDOOR], styles: ['Modern'], categories: [ProductCategory.BEAUTY_COSMETICS, ProductCategory.PACKAGING] },
+    { text: 'minimalist concrete bathroom ledge', vibes: [EnvironmentType.INDOOR], styles: ['Minimal', 'Industrial'], categories: [ProductCategory.BEAUTY_COSMETICS, ProductCategory.PACKAGING] }
   ],
   [SceneContext.OUTDOOR]: [
-    { text: 'sunlit wooden deck in a garden', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.NATURAL], styles: ['Rustic'] },
-    { text: 'smooth stone surface by a calm pool', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.NATURAL], styles: ['Luxury'] },
-    { text: 'urban concrete bench with dappled sunlight', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.URBAN], styles: ['Modern'] },
-    { text: 'mossy rock in a forest setting', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.NATURAL], styles: ['Rustic'] }
+    { text: 'sunlit wooden deck in a garden', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.NATURAL], styles: ['Rustic'], categories: [ProductCategory.FURNITURE, ProductCategory.OTHER] },
+    { text: 'smooth stone surface by a calm pool', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.NATURAL], styles: ['Luxury'], categories: [ProductCategory.FURNITURE, ProductCategory.OTHER, ProductCategory.GADGETS] },
+    { text: 'urban concrete bench with dappled sunlight', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.URBAN], styles: ['Modern'], categories: [ProductCategory.FURNITURE, ProductCategory.OTHER, ProductCategory.GADGETS] },
+    { text: 'modern balcony with a view of the city skyline', vibes: [EnvironmentType.OUTDOOR, EnvironmentType.URBAN], styles: ['Modern', 'Luxury'], categories: [ProductCategory.HOME_ELECTRONICS, ProductCategory.FURNITURE] }
   ],
   [SceneContext.STUDIO]: [
     { text: 'solid color studio backdrop', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'] },
@@ -48,13 +50,13 @@ const LOCATIONS: Record<SceneContext, LocationEntry[]> = {
     { text: 'textured paper background', vibes: [EnvironmentType.INDOOR], styles: ['Minimal'] }
   ],
   [SceneContext.INDUSTRIAL]: [
-    { text: 'brushed metal workbench surface', vibes: [EnvironmentType.INDOOR], styles: ['Industrial'] },
-    { text: 'polished concrete floor in a loft', vibes: [EnvironmentType.INDOOR], styles: ['Industrial'] }
+    { text: 'brushed metal workbench surface', vibes: [EnvironmentType.INDOOR], styles: ['Industrial'], categories: [ProductCategory.GADGETS, ProductCategory.HOME_ELECTRONICS] },
+    { text: 'polished concrete floor in a loft', vibes: [EnvironmentType.INDOOR], styles: ['Industrial'], categories: [ProductCategory.FURNITURE, ProductCategory.HOME_ELECTRONICS] }
   ],
   [SceneContext.LUXURY]: [
-    { text: 'black velvet display surface', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'] },
-    { text: 'gold-veined marble plinth', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'] },
-    { text: 'reflective glass surface with bokeh lights', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'] }
+    { text: 'black velvet display surface', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'], categories: [ProductCategory.ACCESSORIES, ProductCategory.BEAUTY_COSMETICS] },
+    { text: 'gold-veined marble plinth', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'], categories: [ProductCategory.ACCESSORIES, ProductCategory.BEAUTY_COSMETICS] },
+    { text: 'reflective glass surface with bokeh lights', vibes: [EnvironmentType.INDOOR], styles: ['Luxury'], categories: [ProductCategory.ACCESSORIES, ProductCategory.BEAUTY_COSMETICS, ProductCategory.GADGETS] }
   ]
 };
 
@@ -263,7 +265,12 @@ export class PromptBuilder {
   }
 }
 
-export function buildVariations(contexts: SceneContext[], count: number, locationStyle: LocationStyle = 'Auto'): SceneVariation[] {
+export function buildVariations(
+  contexts: SceneContext[], 
+  count: number, 
+  locationStyle: LocationStyle = 'Auto',
+  category?: ProductCategory
+): SceneVariation[] {
   const variations: SceneVariation[] = [];
   const usedLocations = new Set<string>();
 
@@ -275,6 +282,14 @@ export function buildVariations(contexts: SceneContext[], count: number, locatio
     let pool = LOCATIONS[ctx] || LOCATIONS[SceneContext.STUDIO];
     
     let filtered = pool;
+    
+    // 1. Filter by Category if provided
+    if (category) {
+        const catFiltered = filtered.filter(l => !l.categories || l.categories.includes(category));
+        if (catFiltered.length > 0) filtered = catFiltered;
+    }
+
+    // 2. Filter by Style
     if (locationStyle !== 'Auto') {
       const styleFiltered = filtered.filter(l => l.styles.includes(locationStyle));
       if (styleFiltered.length > 0) filtered = styleFiltered;
